@@ -5,6 +5,7 @@ export interface CardFormDataProps {
   payment_method_id: string;
   transaction_amount: number;
   installments: number;
+  description: string;
   payer: {
     email: string;
     identification: {
@@ -33,6 +34,7 @@ export interface BrickError {
 export interface MercadoPagoConstructor {
   new (publicKey: string, options: { locale: string }): {
     bricks(): {
+
       create(
         name: string,
         container: string,
@@ -51,3 +53,85 @@ declare global {
     MercadoPago: MercadoPagoConstructor;
   }
 }
+
+
+/*
+
+// types/mercadoPago.d.ts o types/index.ts
+
+// 📦 Tipos de las acciones dentro de callbacks
+export interface BrickOnSubmitActions {
+  // Este método se llama cuando querés notificar que el proceso terminó (ej: cerrar el Brick).
+  onReady(): void;
+  onError(error: unknown): void;
+}
+
+// 📦 Datos que devuelve el formulario (al hacer submit)
+export interface CardFormDataProps {
+  paymentMethod: {
+    id: string;
+    payment_type_id: string;
+  };
+  issuer: {
+    id: string;
+    name: string;
+  };
+  cardholder: {
+    name: string;
+    identification: {
+      type: string;
+      number: string;
+    };
+  };
+  cardNumber: string;
+  expirationDate: string;
+  securityCode: string;
+  amount: number;
+  installments: number;
+}
+
+// 📦 Error estándar del Brick
+export interface BrickError {
+  message: string;
+  error: string;
+  type: string;
+}
+
+// 📦 Opciones para crear el Brick
+export interface BrickCreateOptions {
+  initialization?: Record<string, any>; // lo podés tipar más fuerte si sabés las props
+  customization?: Record<string, any>;
+  callbacks?: {
+    onReady?: () => void;
+    onSubmit?: (
+      cardFormData: CardFormDataProps,
+      actions: BrickOnSubmitActions
+    ) => Promise<void>;
+    onError?: (error: BrickError) => void;
+  };
+}
+
+// 📦 Instancia del SDK de MercadoPago
+export interface MercadoPagoInstance {
+  bricks(): {
+    create(
+      name: 'cardPayment' | 'wallet' | string,
+      container: string,
+      options?: BrickCreateOptions
+    ): void;
+  };
+}
+
+// 📦 Constructor (para new MercadoPago)
+export interface MercadoPagoConstructor {
+  new (publicKey: string, options?: { locale?: string }): MercadoPagoInstance;
+}
+
+// 📦 Hacemos visible en todo el proyecto que window.MercadoPago existe y es así
+declare global {
+  interface Window {
+    MercadoPago: MercadoPagoConstructor;
+  }
+}
+
+*/
